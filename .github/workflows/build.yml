@@ -16,6 +16,11 @@ jobs:
           gradle-version: 8.7
       - name: Unzip project
         run: unzip -o HandControlAndroid.zip
+      - name: Fix build script
+        working-directory: HandControlAndroid/app
+        run: |
+          sed -i '1i import java.net.URI' build.gradle.kts
+          sed -i 's/java\.net\.URL(url)/URI(url).toURL()/' build.gradle.kts
       - name: Build debug APK
         working-directory: HandControlAndroid
         run: gradle assembleDebug --no-daemon
